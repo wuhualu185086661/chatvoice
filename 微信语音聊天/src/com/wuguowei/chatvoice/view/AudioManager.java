@@ -46,38 +46,42 @@ public class AudioManager {
 	}
 
 	public void prepareAudio() {
-		try {
-			isPrepare = false;
+		isPrepare = false;
+		
+			
 			File dir = new File(mDir);
-			if (!dir.exists()) {
-				dir.mkdir();
-				String fileName = generateFielName();
-				File file = new File(dir, fileName);
-				mCurrentFilePath = file.getAbsolutePath();
-				mMediaRecorder = new MediaRecorder();
-				// 设置输出文件
-				mMediaRecorder.setOutputFile(file.getAbsolutePath());
-				// 设置音频源为麦克风
-				mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-				// 设置音频的格式
-				mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.RAW_AMR);
-				// 设置音频的编码为amr
-				mMediaRecorder.setAudioSource(MediaRecorder.AudioEncoder.AMR_NB);
+			if (!dir.exists())
+				dir.mkdirs();
 
+			String fileName = generateFielName();
+			File file = new File(dir, fileName);
+			mCurrentFilePath = file.getAbsolutePath();
+			mMediaRecorder = new MediaRecorder();
+			// 设置输出文件
+			mMediaRecorder.setOutputFile(file.getAbsolutePath());
+
+			// 设置音频源为麦克风
+			mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+			// 设置音频的格式
+			mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
+			// 设置音频的编码为amr
+			mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+			try {
 				mMediaRecorder.prepare();
-				mMediaRecorder.start();
-				// 准备结束
-				isPrepare = true;
-				if (mListener != null) {
-					mListener.wellPrepared();
-				}
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
+			mMediaRecorder.start();
+			// 准备结束
+			isPrepare = true;
+			if (mListener != null) {
+				mListener.wellPrepared();
+			}
+	
 	}
 
 	/**
@@ -102,8 +106,9 @@ public class AudioManager {
 
 	public void release() {
 		mMediaRecorder.stop();
+		if(mMediaRecorder!=null){
 		mMediaRecorder.release();
-		mMediaRecorder = null;
+		mMediaRecorder = null;}
 	}
 
 	public void cancel() {

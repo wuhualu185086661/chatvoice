@@ -74,14 +74,12 @@ public class DialogManager {
 	/**
 	 * 通过level更新voice上的图片
 	 * 
-	 * @param level 1-7
+	 * @param level
+	 *            1-7
 	 */
 
 	public void updateVoiceLevel(int level) {
 		if (mDialog != null && mDialog.isShowing()) {
-			mIcon.setVisibility(View.VISIBLE);
-			mVoice.setVisibility(View.VISIBLE);
-			mLable.setVisibility(View.VISIBLE);
 
 			int resId = mContext.getResources().getIdentifier("v" + level, "drawable", mContext.getPackageName());
 			mVoice.setImageResource(resId);

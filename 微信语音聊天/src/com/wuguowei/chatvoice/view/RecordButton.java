@@ -26,7 +26,7 @@ public class RecordButton extends Button implements AudioStateListener {
 
 	private float mTime;
 	// ÊÇ·ñ´¥·¢longclick
-	private boolean mReady;
+	private boolean mReady = false;
 
 	public RecordButton(Context context) {
 		this(context, null);
